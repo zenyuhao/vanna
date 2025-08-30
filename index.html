@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iPhone风格产品展示</title>
+    <title>LiXiaoWen</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -18,42 +19,155 @@
             overflow-x: hidden;
         }
 
+        /* 顶部导航banner */
+        .top-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(20, 20, 20, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 0.8rem 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.3s ease;
+        }
+
+        .top-banner.scrolled {
+            background: rgba(0, 0, 0, 0.92);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-items {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .nav-item {
+            color: #f5f5f7;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 400;
+            padding: 0.6rem 1rem;
+            border-radius: 18px;
+            transition: all 0.3s ease;
+            position: relative;
+            opacity: 0.8;
+        }
+
+        .nav-item:hover {
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-item.active {
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            background: #007aff;
+            border-radius: 50%;
+        }
+
+        /* 主内容区域 */
+        /* .content { */
+        /*     margin-top: 70px; /\* 为顶部banner留出空间 *\/ */
+        /* } */
+
         section {
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 0 5%;
+            padding: 6rem 5%;
             position: relative;
         }
 
         .hero {
-            background: #000;
+            background: linear-gradient(135deg, #000 0%, #2c2c2c 100%);
             color: #f5f5f7;
             text-align: center;
+            padding-top: 10rem;
         }
 
         .hero h1 {
             font-size: 5rem;
             font-weight: 700;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             opacity: 0;
             transform: translateY(50px);
         }
 
-        .hero p {
-            font-size: 2rem;
+        .hero p1 {
+            font-size: 2.2rem;
             opacity: 0;
             transform: translateY(50px);
+            margin-bottom: 3rem;
+            color: #86868b;
+        }
+
+        .hero p2 {
+            font-size: 2.2rem;
+            opacity: 0;
+            transform: translateY(50px);
+            margin-bottom: 3rem;
+            color: #86868b;
+        }
+
+        .hero p3 {
+            font-size: 2.2rem;
+            opacity: 0;
+            transform: translateY(50px);
+            margin-bottom: 3rem;
+            color: #86868b;
+        }
+
+
+        .hero p4 {
+            font-size: 2.2rem;
+            opacity: 0;
+            transform: translateY(50px);
+            margin-bottom: 3rem;
+            color: #86868b;
+        }
+
+        .hero .cta-button {
+            padding: 1rem 2.5rem;
+            font-size: 1.4rem;
+            background: #102030;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.3s ease;
+        }
+
+        .hero .cta-button:hover {
+            background: #006ee3;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 122, 255, 0.3);
         }
 
         .feature {
-            padding: 10vh 5%;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            padding: 8rem 5%;
         }
 
         .sticky-container {
@@ -63,8 +177,8 @@
 
         .sticky-content {
             position: sticky;
-            top: 0;
-            height: 100vh;
+            top: 100px;
+            height: calc(100vh - 100px);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -89,13 +203,49 @@
 
         .feature-text h2 {
             font-size: 3.5rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateY(30px);
         }
 
         .feature-text p {
             font-size: 1.5rem;
             color: #86868b;
-            line-height: 1.4;
+            line-height: 1.5;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .design-section {
+            background: #f5f5f7;
+            text-align: center;
+        }
+
+        .design-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .design-content h2 {
+            font-size: 3.5rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+        }
+
+        .design-content p {
+            font-size: 1.5rem;
+            color: #86868b;
+            line-height: 1.5;
+            margin-bottom: 3rem;
+            opacity: 0;
+        }
+
+        .design-image {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            transform: translateY(50px);
         }
 
         .footer {
@@ -104,44 +254,100 @@
             background: #f5f5f7;
             color: #86868b;
         }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-items {
+                gap: 1rem;
+            }
+
+            .nav-item {
+                font-size: 0.9rem;
+                padding: 0.5rem 0.8rem;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero p {
+                font-size: 1.5rem;
+            }
+
+            .feature-text h2 {
+                font-size: 2.5rem;
+            }
+
+            .feature-text p {
+                font-size: 1.2rem;
+            }
+        }
     </style>
 </head>
 <body>
-    <section class="hero">
-        <h1>全新iPhone</h1>
-        <p>前所未有的突破</p>
-    </section>
-
-    <div class="sticky-container">
-        <div class="sticky-content">
-            <img src="https://placehold.co/800x1000/000000/FFFFFF/png?text=iPhone" alt="iPhone" class="phone-image" id="phone-img">
-
-            <div class="feature-text" id="feature1">
-                <h2>惊艳的显示屏</h2>
-                <p>超视网膜XDR显示屏，带来无与伦比的视觉体验。</p>
-            </div>
-
-            <div class="feature-text" id="feature2" style="display: none;">
-                <h2>强大的A系列芯片</h2>
-                <p>行业领先的性能，轻松处理最繁重的任务。</p>
-            </div>
-
-            <div class="feature-text" id="feature3" style="display: none;">
-                <h2>突破性的相机系统</h2>
-                <p>专业级的照片和视频，在任何光线条件下都表现卓越。</p>
-            </div>
+    <!-- 顶部导航banner -->
+    <div class="top-banner">
+        <div class="nav-items">
+            <a href="#hero" class="nav-item active">我</a>
+            <a href="#display" class="nav-item">作品集</a>
+            <a href="#performance" class="nav-item">性能</a>
+            <a href="#camera" class="nav-item">相机</a>
+            <a href="#design" class="nav-item">设计</a>
         </div>
     </div>
 
-    <section class="feature">
-        <div class="feature-text">
-            <h2>设计精美</h2>
-            <p> aerospace-grade aluminum enclosure. 世界上最坚固的智能手机玻璃。</p>
-        </div>
-    </section>
+    <div class="content">
+        <!-- 英雄区域 -->
+        <section id="hero" class="hero">
+            <h1>Li XiaoWen</h1>
+            <p1>NOVA BRAND serves as brand designer</p1>
+            <p2>Alibaba Local Life as visual designer</p2>
+            <p3>BiXin serves as a design team leader</p3>
+            <p4>ByteDance Tiktok designer</p4>
+        </section>
 
-    <div class="footer">
-        <p>© 2023 公司名称。保留所有权利。</p>
+        <!-- 显示屏部分 -->
+        <section id="display" class="feature">
+            <div class="sticky-container">
+                <div class="sticky-content">
+                    <img src="https://placehold.co/800x1000/000000/FFFFFF/png?text=超视网膜XDR显示屏" alt="iPhone显示屏" class="phone-image" id="phone-img">
+
+                    <div class="feature-text" id="feature1">
+                        <h2>惊艳的显示屏</h2>
+                        <p>超视网膜XDR显示屏，带来无与伦比的视觉体验。ProMotion技术实现自适应刷新率，滚动更加流畅，响应更加灵敏。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 性能部分 -->
+        <section id="performance" class="feature">
+            <div class="feature-text">
+                <h2>强大的A系列芯片</h2>
+                <p>行业领先的性能，轻松处理最繁重的任务。无论是游戏、AR还是视频编辑，都能提供桌面级的性能表现。</p>
+            </div>
+        </section>
+
+        <!-- 相机部分 -->
+        <section id="camera" class="feature">
+            <div class="feature-text">
+                <h2>突破性的相机系统</h2>
+                <p>专业级的照片和视频，在任何光线条件下都表现卓越。全新的传感器移位式光学图像防抖功能，即使在运动中也能拍摄稳定影像。</p>
+            </div>
+        </section>
+
+        <!-- 设计部分 -->
+        <section id="design" class="design-section">
+            <div class="design-content">
+                <h2>设计精美</h2>
+                <p>采用航空级铝金属设计，坚固耐用。世界上最坚固的智能手机玻璃，兼具美观与防护。</p>
+                <img src="https://placehold.co/1000x600/e5e5e5/666666/png?text=精美设计" alt="iPhone设计" class="design-image">
+            </div>
+        </section>
+
+        <div class="footer">
+            <p>© 2023 公司名称。保留所有权利。</p>
+        </div>
     </div>
 
     <!-- 引入GSAP和ScrollTrigger -->
@@ -159,15 +365,71 @@
                 opacity: 1,
                 y: 0,
                 duration: 1.5,
-                ease: "power3.out"
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: '.hero',
+                    start: 'top center',
+                }
             });
 
-            gsap.to('.hero p', {
+            gsap.to('.hero p1', {
                 opacity: 1,
                 y: 0,
                 duration: 1.5,
                 delay: 0.3,
-                ease: "power3.out"
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: '.hero',
+                    start: 'top center',
+                }
+            });
+
+          gsap.to('.hero p2', {
+            opacity: 1,
+            y: 0,
+            duration: 1.5,
+            delay: 0.4,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: '.hero',
+              start: 'top center',
+            }
+          });
+
+          gsap.to('.hero p3', {
+            opacity: 1,
+            y: 0,
+            duration: 1.5,
+            delay: 0.5,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: '.hero',
+              start: 'top center',
+            }
+          });
+
+          gsap.to('.hero p4', {
+            opacity: 1,
+            y: 0,
+            duration: 1.5,
+            delay: 0.6,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: '.hero',
+              start: 'top center',
+            }
+          });
+
+            gsap.to('.hero .cta-button', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                delay: 0.6,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: '.hero',
+                    start: 'top center',
+                }
             });
 
             // 手机图片滚动动画
@@ -176,54 +438,158 @@
                 scale: 1,
                 y: 0,
                 scrollTrigger: {
-                    trigger: '.sticky-container',
+                    trigger: '#display',
                     start: 'top center',
                     end: 'bottom bottom',
                     scrub: true,
                 }
             });
 
-            // 特性文本切换动画
-            const features = ['#feature1', '#feature2', '#feature3'];
+            // 特性文本动画
+            gsap.to('#feature1 h2', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: '#feature1',
+                    start: 'top 80%',
+                }
+            });
 
-            features.forEach((feature, index) => {
-                gsap.to(feature, {
-                    opacity: 1,
-                    y: 0,
-                    scrollTrigger: {
-                        trigger: '.sticky-container',
-                        start: `${index * 25 + 25}% center`,
-                        end: `${index * 25 + 30}% center`,
-                        toggleActions: "play none none reverse",
-                        onEnter: () => {
-                            // 隐藏所有特性文本
-                            features.forEach(f => {
-                                document.querySelector(f).style.display = 'none';
-                            });
-                            // 显示当前特性文本
-                            document.querySelector(feature).style.display = 'block';
-                        },
-                        onEnterBack: () => {
-                            // 隐藏所有特性文本
-                            features.forEach(f => {
-                                document.querySelector(f).style.display = 'none';
-                            });
-                            // 显示当前特性文本
-                            document.querySelector(feature).style.display = 'block';
-                        }
+            gsap.to('#feature1 p', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                delay: 0.3,
+                scrollTrigger: {
+                    trigger: '#feature1',
+                    start: 'top 80%',
+                }
+            });
+
+            // 性能部分动画
+            gsap.to('#performance h2', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: '#performance',
+                    start: 'top 80%',
+                }
+            });
+
+            gsap.to('#performance p', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                delay: 0.3,
+                scrollTrigger: {
+                    trigger: '#performance',
+                    start: 'top 80%',
+                }
+            });
+
+            // 相机部分动画
+            gsap.to('#camera h2', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: '#camera',
+                    start: 'top 80%',
+                }
+            });
+
+            gsap.to('#camera p', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                delay: 0.3,
+                scrollTrigger: {
+                    trigger: '#camera',
+                    start: 'top 80%',
+                }
+            });
+
+            // 设计部分动画
+            gsap.to('.design-content h2', {
+                opacity: 1,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: '.design-section',
+                    start: 'top 80%',
+                }
+            });
+
+            gsap.to('.design-content p', {
+                opacity: 1,
+                duration: 1,
+                delay: 0.2,
+                scrollTrigger: {
+                    trigger: '.design-section',
+                    start: 'top 80%',
+                }
+            });
+
+            gsap.to('.design-image', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                delay: 0.4,
+                scrollTrigger: {
+                    trigger: '.design-section',
+                    start: 'top 80%',
+                }
+            });
+
+            // 导航高亮功能
+            const sections = document.querySelectorAll('section');
+            const navItems = document.querySelectorAll('.nav-item');
+
+            // 监听滚动事件
+            window.addEventListener('scroll', function() {
+                let current = '';
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+
+                    if (pageYOffset >= (sectionTop - 200)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navItems.forEach(item => {
+                    item.classList.remove('active');
+                    if (item.getAttribute('href').substring(1) === current) {
+                        item.classList.add('active');
                     }
                 });
             });
 
-            // 缩放动画
-            gsap.to('#phone-img', {
-                scale: 1.2,
-                scrollTrigger: {
-                    trigger: '.sticky-container',
-                    start: 'top top',
-                    end: 'bottom bottom',
-                    scrub: true,
+            // 添加banner滚动效果
+            window.addEventListener('scroll', function() {
+                const banner = document.querySelector('.top-banner');
+                if (window.scrollY > 50) {
+                    banner.classList.add('scrolled');
+                } else {
+                    banner.classList.remove('scrolled');
                 }
+            });
+
+            // 平滑滚动到锚点
+            document.querySelectorAll('.nav-item').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    const targetId = this.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+
+                    window.scrollTo({
+                        top: targetSection.offsetTop - 70,
+                        behavior: 'smooth'
+                    });
+                });
             });
         });
     </script>
