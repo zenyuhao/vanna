@@ -15,7 +15,7 @@
 
         body {
             color: #1d1d1f;
-            background: #fff;
+            background: #303030;
             overflow-x: hidden;
         }
 
@@ -25,7 +25,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(50, 50, 50, 0.8);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             z-index: 1000;
@@ -231,13 +231,32 @@
         }
 
         .feature-text {
-            text-align: center;
             max-width: 800px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 1rem;
+            display: flex;
+        }
+
+        .feature-text-left {
+            width: 40%;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .feature-text-right {
+            width: 60%;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .feature-text-block {
+            width: 100%;
+            margin: 0 auto;
+            padding: 1rem;
         }
 
         .feature-text h2 {
+            text-align: left;
             font-size: 3.5rem;
             margin-bottom: 1.5rem;
             opacity: 0;
@@ -245,8 +264,26 @@
         }
 
         .feature-text p {
+            text-align: left;
             font-size: 1.5rem;
             color: #86868b;
+            line-height: 1.5;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+
+        .feature-text t1 {
+            font-size: 0.9rem;
+            color: #10aa10;
+            line-height: 1.5;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .feature-text p1 {
+            font-size: 1.0rem;
+            color: #F6F6Fb;
             line-height: 1.5;
             opacity: 0;
             transform: translateY(30px);
@@ -300,6 +337,96 @@
             color: #86868b;
         }
 
+
+
+        /* 横向图片滚动区域 */
+        .horizontal-scroll-section {
+            width: 100%;
+            margin: 4rem 0;
+            position: relative;
+        }
+
+        .scroll-container {
+            width: 100%;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            padding: 1rem 0;
+        }
+
+        .scroll-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .image-scroll {
+            display: flex;
+            gap: 2rem;
+            padding: 0 1rem;
+        }
+
+        .scroll-item {
+            flex: 0 0 auto;
+            width: 300px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateX(50px);
+        }
+
+        .scroll-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .scroll-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .scroll-caption {
+            padding: 1.5rem;
+            background: #fff;
+        }
+
+        .scroll-caption h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .scroll-caption p {
+            color: #86868b;
+            line-height: 1.5;
+        }
+
+
+        /* 滚动指示器 */
+        .scroll-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-top: 2rem;
+        }
+
+        .indicator-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #d2d2d7;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator-dot.active {
+            background: #007aff;
+            transform: scale(1.2);
+        }
+
+
+
         /* 响应式设计 */
         @media (max-width: 768px) {
             .nav-item {
@@ -333,95 +460,182 @@
 <body>
     <!-- 顶部导航banner -->
     <div class="top-banner">
-        <div class="nav-control prev">
-            <i class="fas fa-chevron-left"></i>
-        </div>
+        <!-- <div class="nav-control prev"> -->
+        <!--     <i class="fas fa-chevron-left"></i> -->
+        <!-- </div> -->
 
         <div class="nav-container">
             <div class="nav-scroller">
                 <div class="nav-items">
-                    <a href="#hero" class="nav-item active">概览</a>
-                    <a href="#display" class="nav-item">显示屏</a>
-                    <a href="#performance" class="nav-item">性能</a>
-                    <a href="#camera" class="nav-item">相机</a>
-                    <a href="#design" class="nav-item">设计</a>
-                    <a href="#battery" class="nav-item">电池续航</a>
-                    <a href="#colors" class="nav-item">颜色</a>
+                    <a href="#intro" class="nav-item active">介绍</a>
+                    <a href="#project_1" class="nav-item">项目1</a>
+                    <a href="#project_2" class="nav-item">项目2</a>
+                    <a href="#concat" class="nav-item">联系</a>
+                    <!-- <a href="#camera" class="nav-item">项目3</a> -->
+                    <!-- <a href="#design" class="nav-item">项目4</a> -->
+                    <!-- <a href="#battery" class="nav-item">项目5</a> -->
+                    <!-- <a href="#colors" class="nav-item">项目</a> -->
                 </div>
             </div>
         </div>
 
-        <div class="nav-control next">
-            <i class="fas fa-chevron-right"></i>
-        </div>
+        <!-- <div class="nav-control next"> -->
+        <!--     <i class="fas fa-chevron-right"></i> -->
+        <!-- </div> -->
     </div>
 
     <div class="content">
         <!-- 英雄区域 -->
-        <section id="hero" class="hero">
-            <h1>全新iPhone</h1>
-            <p>前所未有的突破</p>
-            <button class="cta-button">立即购买</button>
+        <section id="intro" class="hero">
+            <h1>李晓文</h1>
+            <p>让设计温暖世界</p>
+            <!-- <button class="cta-button">立即购买</button> -->
         </section>
 
-        <!-- 显示屏部分 -->
-        <section id="display" class="feature">
+        <section id="project_1" class="feature">
+            <div class="sticky-container">
+              <div class="sticky-content">
+
+                <img src="project_1.png" alt="project_1" class="phone-image" id="phone-img">
+
+
+                <!-- <div class="horizontal-scroll-section"> -->
+                <!--   <div class="scroll-container" id="performance-scroll"> -->
+                <!--     <div class="image-scroll"> -->
+                <!--       <div class="scroll-item"> -->
+                <!--         <img src="project_1-2.png"> -->
+                <!--         <div class="scroll-caption"> -->
+                <!--         </div> -->
+                <!--       </div> -->
+                <!--     </div> -->
+                <!--   </div> -->
+                <!--   <div class="scroll-indicator" id="performance-indicator"></div> -->
+                <!-- </div> -->
+
+
+                <div class="feature-text" id="feature1">
+                  <div class="feature-text-left">
+                    <div class="feature-text-block">
+                      <div><t1>Breadth</t1></div>
+                      <div><p1>UX / UI / KV / Motion / Frame / Figma</p1></div>
+                    </div>
+                    <div class="feature-text-block">
+                      <div><t1>Design Tools</t1></div>
+                      <div><p1>Blander / Ps / Ae / Figma </p1></div>
+                    </div>
+                    <div class="feature-text-block">
+                      <div><t1>Region</t1></div>
+                      <div><p1>JP / MENA / SEA / AMS</p1></div>
+                    </div>
+                  </div>
+
+                  <div class="feature-text-right">
+                    <div class="feature-text-block">
+                      <div><t1>Background</t1></div>
+                      <div><p1>Many livestreamers' studios are rather basic, making them difficult to attract viewers. This campaign was created to encourage users to better decorate their studios.</p1></div>
+                    </div>
+
+                    <div class="feature-text-block">
+                      <div><t1>Requirement Analysis</t1></div>
+                      <div><p1>This is a tree cultivation game-style campaign.</p1></div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+        </section>
+
+
+        <section id="project_2" class="feature">
+          <div class="sticky-container">
+            <div class="sticky-content">
+              <img src="project_2.png" alt="project_2" class="phone-image" id="phone-img">
+
+              <div class="feature-text" id="feature1">
+                <div class="feature-text-left">
+                  <div class="feature-text-block">
+                    <div><t1>Breadth</t1></div>
+                    <div><p1>UX / UI / KV / Motion / Frame / Figma</p1></div>
+                  </div>
+                  <div class="feature-text-block">
+                    <div><t1>Design Tools</t1></div>
+                    <div><p1>Blander / Ps / Ae / Figma </p1></div>
+                  </div>
+                  <div class="feature-text-block">
+                    <div><t1>Region</t1></div>
+                    <div><p1>JP / MENA / SEA / AMS</p1></div>
+                  </div>
+                </div>
+
+                <div class="feature-text-right">
+                  <div class="feature-text-block">
+                    <div><t1>Background</t1></div>
+                    <div><p1>Many livestreamers' studios are rather basic, making them difficult to attract viewers. This campaign was created to encourage users to better decorate their studios.</p1></div>
+                  </div>
+
+                  <div class="feature-text-block">
+                    <div><t1>Requirement Analysis</t1></div>
+                    <div><p1>We created a mini-room decorating game where players complete specific tasks to earn in-game items, which they can then customize to their liking.We researched popular livestream studio backgrounds and identified common features, such as lighting, microphones, decorative paintings, and background canvases.</p1></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </section>
+
+
+        <section id="concat" class="feature">
             <div class="sticky-container">
                 <div class="sticky-content">
-                    <img src="https://placehold.co/800x1000/000000/FFFFFF/png?text=超视网膜XDR显示屏" alt="iPhone显示屏" class="phone-image" id="phone-img">
-
-                    <div class="feature-text" id="feature1">
-                        <h2>惊艳的显示屏</h2>
-                        <p>超视网膜XDR显示屏，带来无与伦比的视觉体验。ProMotion技术实现自适应刷新率，滚动更加流畅，响应更加灵敏。</p>
-                    </div>
+                    <img src="concat.png">
                 </div>
             </div>
         </section>
 
         <!-- 性能部分 -->
-        <section id="performance" class="feature">
-            <div class="feature-text">
-                <h2>强大的A系列芯片</h2>
-                <p>行业领先的性能，轻松处理最繁重的任务。无论是游戏、AR还是视频编辑，都能提供桌面级的性能表现。</p>
-            </div>
-        </section>
+        <!-- <section id="performance" class="feature"> -->
+        <!--     <div class="feature-text"> -->
+        <!--         <h2>强大的A系列芯片</h2> -->
+        <!--         <p>行业领先的性能，轻松处理最繁重的任务。无论是游戏、AR还是视频编辑，都能提供桌面级的性能表现。</p> -->
+        <!--     </div> -->
+        <!-- </section> -->
 
-        <!-- 相机部分 -->
-        <section id="camera" class="feature">
-            <div class="feature-text">
-                <h2>突破性的相机系统</h2>
-                <p>专业级的照片和视频，在任何光线条件下都表现卓越。全新的传感器移位式光学图像防抖功能，即使在运动中也能拍摄稳定影像。</p>
-            </div>
-        </section>
+        <!-- <\!-- 相机部分 -\-> -->
+        <!-- <section id="camera" class="feature"> -->
+        <!--     <div class="feature-text"> -->
+        <!--         <h2>突破性的相机系统</h2> -->
+        <!--         <p>专业级的照片和视频，在任何光线条件下都表现卓越。全新的传感器移位式光学图像防抖功能，即使在运动中也能拍摄稳定影像。</p> -->
+        <!--     </div> -->
+        <!-- </section> -->
 
-        <!-- 设计部分 -->
-        <section id="design" class="design-section">
-            <div class="design-content">
-                <h2>设计精美</h2>
-                <p>采用航空级铝金属设计，坚固耐用。世界上最坚固的智能手机玻璃，兼具美观与防护。</p>
-                <img src="https://placehold.co/1000x600/e5e5e5/666666/png?text=精美设计" alt="iPhone设计" class="design-image">
-            </div>
-        </section>
+        <!-- <\!-- 设计部分 -\-> -->
+        <!-- <section id="design" class="design-section"> -->
+        <!--     <div class="design-content"> -->
+        <!--         <h2>设计精美</h2> -->
+        <!--         <p>采用航空级铝金属设计，坚固耐用。世界上最坚固的智能手机玻璃，兼具美观与防护。</p> -->
+        <!--         <img src="https://placehold.co/1000x600/e5e5e5/666666/png?text=精美设计" alt="iPhone设计" class="design-image"> -->
+        <!--     </div> -->
+        <!-- </section> -->
 
-        <!-- 电池续航部分 -->
-        <section id="battery" class="battery-section">
-            <div class="feature-text">
-                <h2>全天候电池续航</h2>
-                <p>智能电池管理系统，优化能耗，提供更长的使用时间。支持快速充电和无线充电。</p>
-            </div>
-        </section>
+        <!-- <\!-- 电池续航部分 -\-> -->
+        <!-- <section id="battery" class="battery-section"> -->
+        <!--     <div class="feature-text"> -->
+        <!--         <h2>全天候电池续航</h2> -->
+        <!--         <p>智能电池管理系统，优化能耗，提供更长的使用时间。支持快速充电和无线充电。</p> -->
+        <!--     </div> -->
+        <!-- </section> -->
 
-        <!-- 颜色部分 -->
-        <section id="colors" class="colors-section">
-            <div class="feature-text">
-                <h2>多种配色选择</h2>
-                <p>提供多种时尚配色，满足不同用户的个性化需求。采用特殊的涂层工艺，色彩持久亮丽。</p>
-            </div>
-        </section>
+        <!-- <\!-- 颜色部分 -\-> -->
+        <!-- <section id="colors" class="colors-section"> -->
+        <!--     <div class="feature-text"> -->
+        <!--         <h2>多种配色选择</h2> -->
+        <!--         <p>提供多种时尚配色，满足不同用户的个性化需求。采用特殊的涂层工艺，色彩持久亮丽。</p> -->
+        <!--     </div> -->
+        <!-- </section> -->
 
-        <div class="footer">
-            <p>© 2023 公司名称。保留所有权利。</p>
-        </div>
+        <!-- <div class="footer"> -->
+        <!--     <p> AllRi </p> -->
+        <!-- </div> -->
     </div>
 
     <!-- 引入GSAP和ScrollTrigger -->
@@ -470,42 +684,65 @@
                 }
             });
 
-            // 手机图片滚动动画
-            gsap.to('#phone-img', {
-                opacity: 1,
-                scale: 1,
-                y: 0,
-                scrollTrigger: {
-                    trigger: '#display',
-                    start: 'top center',
-                    end: 'bottom bottom',
-                    scrub: true,
-                }
+           gsap.to('#phone-img', {
+               opacity: 1,
+               scale: 1,
+               y: 0,
+               scrollTrigger: {
+                   trigger: '#display',
+                   start: 'top center',
+                   end: 'bottom bottom',
+                   scrub: true,
+               }
+           });
+
+          gsap.to('.feature-text t1', {
+            opacity: 1,
+            y: 0,
+            duration: 1.5,
+            delay: 0.3,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: '.hero',
+              start: 'top center',
+            }
+          });
+
+            gsap.to('.feature-text p1', {
+              opacity: 1,
+              y: 0,
+              duration: 1.5,
+              delay: 0.3,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: '.hero',
+                start: 'top center',
+              }
             });
 
             // 特性文本动画
-            gsap.to('#feature1 h2', {
-                opacity: 1,
-                y: 0,
-                duration: 1,
-                scrollTrigger: {
-                    trigger: '#feature1',
-                    start: 'top 80%',
-                }
-            });
+            // gsap.to('#feature1 h2', {
+            //     opacity: 1,
+            //     y: 0,
+            //     duration: 1,
+            //     scrollTrigger: {
+            //         trigger: '#feature1',
+            //         start: 'top 80%',
+            //     }
+            // });
 
-            gsap.to('#feature1 p', {
-                opacity: 1,
-                y: 0,
-                duration: 1,
-                delay: 0.3,
-                scrollTrigger: {
-                    trigger: '#feature1',
-                    start: 'top 80%',
-                }
-            });
+            // gsap.to('#feature1 p', {
+            //     opacity: 1,
+            //     y: 0,
+            //     duration: 1,
+            //     delay: 0.3,
+            //     scrollTrigger: {
+            //         trigger: '#feature1',
+            //         start: 'top 80%',
+            //     }
+            // });
 
-            // 性能部分动画
+            // // 性能部分动画
             gsap.to('#performance h2', {
                 opacity: 1,
                 y: 0,
@@ -686,22 +923,22 @@
             });
 
             // 导航左右滚动功能
-            const prevBtn = document.querySelector('.nav-control.prev');
-            const nextBtn = document.querySelector('.nav-control.next');
+            // const prevBtn = document.querySelector('.nav-control.prev');
+            // const nextBtn = document.querySelector('.nav-control.next');
 
-            prevBtn.addEventListener('click', function() {
-                navScroller.scrollBy({
-                    left: -200,
-                    behavior: 'smooth'
-                });
-            });
+            // prevBtn.addEventListener('click', function() {
+            //     navScroller.scrollBy({
+            //         left: -200,
+            //         behavior: 'smooth'
+            //     });
+            // });
 
-            nextBtn.addEventListener('click', function() {
-                navScroller.scrollBy({
-                    left: 200,
-                    behavior: 'smooth'
-                });
-            });
+            // nextBtn.addEventListener('click', function() {
+            //     navScroller.scrollBy({
+            //         left: 200,
+            //         behavior: 'smooth'
+            //     });
+            // });
 
             // 自动滚动导航（循环效果）
             let autoScrollDirection = 1; // 1 for right, -1 for left
