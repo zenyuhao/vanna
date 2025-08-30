@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LiXiaoWen</title>
+    <title>iPhone风格产品展示 - 循环滚动导航</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -25,15 +25,16 @@
             top: 0;
             left: 0;
             width: 100%;
-            background: rgba(20, 20, 20, 0.8);
+            background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             z-index: 1000;
-            padding: 0.8rem 2rem;
+            padding: 0.8rem 0;
             display: flex;
             justify-content: center;
             align-items: center;
             transition: background 0.3s ease;
+            overflow: hidden;
         }
 
         .top-banner.scrolled {
@@ -41,9 +42,31 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
 
+        .nav-container {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            overflow: hidden;
+        }
+
+        .nav-scroller {
+            display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;  /* Firefox */
+            padding: 0.5rem 0;
+        }
+
+        .nav-scroller::-webkit-scrollbar {
+            display: none;  /* Chrome, Safari */
+        }
+
         .nav-items {
             display: flex;
-            gap: 2.5rem;
+            gap: 0;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
 
         .nav-item {
@@ -51,11 +74,13 @@
             text-decoration: none;
             font-size: 1.1rem;
             font-weight: 400;
-            padding: 0.6rem 1rem;
+            padding: 0.6rem 1.8rem;
             border-radius: 18px;
             transition: all 0.3s ease;
             position: relative;
             opacity: 0.8;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .nav-item:hover {
@@ -80,10 +105,46 @@
             border-radius: 50%;
         }
 
+        /* 导航控制按钮 */
+        .nav-control {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            z-index: 1001;
+            transition: all 0.3s ease;
+            opacity: 0.7;
+        }
+
+        .nav-control:hover {
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-control.prev {
+            left: 10px;
+        }
+
+        .nav-control.next {
+            right: 10px;
+        }
+
+        .nav-control i {
+            font-size: 1.2rem;
+        }
+
         /* 主内容区域 */
-        /* .content { */
-        /*     margin-top: 70px; /\* 为顶部banner留出空间 *\/ */
-        /* } */
+        .content {
+            margin-top: 70px; /* 为顶部banner留出空间 */
+        }
 
         section {
             min-height: 100vh;
@@ -110,32 +171,7 @@
             transform: translateY(50px);
         }
 
-        .hero p1 {
-            font-size: 2.2rem;
-            opacity: 0;
-            transform: translateY(50px);
-            margin-bottom: 3rem;
-            color: #86868b;
-        }
-
-        .hero p2 {
-            font-size: 2.2rem;
-            opacity: 0;
-            transform: translateY(50px);
-            margin-bottom: 3rem;
-            color: #86868b;
-        }
-
-        .hero p3 {
-            font-size: 2.2rem;
-            opacity: 0;
-            transform: translateY(50px);
-            margin-bottom: 3rem;
-            color: #86868b;
-        }
-
-
-        .hero p4 {
+        .hero p {
             font-size: 2.2rem;
             opacity: 0;
             transform: translateY(50px);
@@ -146,7 +182,7 @@
         .hero .cta-button {
             padding: 1rem 2.5rem;
             font-size: 1.4rem;
-            background: #102030;
+            background: #007aff;
             color: white;
             border: none;
             border-radius: 30px;
@@ -248,6 +284,15 @@
             transform: translateY(50px);
         }
 
+        .battery-section {
+            background: linear-gradient(135deg, #f2f2f7 0%, #ffffff 100%);
+        }
+
+        .colors-section {
+            background: #000;
+            color: #f5f5f7;
+        }
+
         .footer {
             text-align: center;
             padding: 5rem 2rem;
@@ -257,13 +302,14 @@
 
         /* 响应式设计 */
         @media (max-width: 768px) {
-            .nav-items {
-                gap: 1rem;
-            }
-
             .nav-item {
                 font-size: 0.9rem;
-                padding: 0.5rem 0.8rem;
+                padding: 0.5rem 1.2rem;
+            }
+
+            .nav-control {
+                width: 32px;
+                height: 32px;
             }
 
             .hero h1 {
@@ -287,23 +333,35 @@
 <body>
     <!-- 顶部导航banner -->
     <div class="top-banner">
-        <div class="nav-items">
-            <a href="#hero" class="nav-item active">我</a>
-            <a href="#display" class="nav-item">作品集</a>
-            <a href="#performance" class="nav-item">性能</a>
-            <a href="#camera" class="nav-item">相机</a>
-            <a href="#design" class="nav-item">设计</a>
+        <div class="nav-control prev">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+
+        <div class="nav-container">
+            <div class="nav-scroller">
+                <div class="nav-items">
+                    <a href="#hero" class="nav-item active">概览</a>
+                    <a href="#display" class="nav-item">显示屏</a>
+                    <a href="#performance" class="nav-item">性能</a>
+                    <a href="#camera" class="nav-item">相机</a>
+                    <a href="#design" class="nav-item">设计</a>
+                    <a href="#battery" class="nav-item">电池续航</a>
+                    <a href="#colors" class="nav-item">颜色</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-control next">
+            <i class="fas fa-chevron-right"></i>
         </div>
     </div>
 
     <div class="content">
         <!-- 英雄区域 -->
         <section id="hero" class="hero">
-            <h1>Li XiaoWen</h1>
-            <p1>NOVA BRAND serves as brand designer</p1>
-            <p2>Alibaba Local Life as visual designer</p2>
-            <p3>BiXin serves as a design team leader</p3>
-            <p4>ByteDance Tiktok designer</p4>
+            <h1>全新iPhone</h1>
+            <p>前所未有的突破</p>
+            <button class="cta-button">立即购买</button>
         </section>
 
         <!-- 显示屏部分 -->
@@ -345,6 +403,22 @@
             </div>
         </section>
 
+        <!-- 电池续航部分 -->
+        <section id="battery" class="battery-section">
+            <div class="feature-text">
+                <h2>全天候电池续航</h2>
+                <p>智能电池管理系统，优化能耗，提供更长的使用时间。支持快速充电和无线充电。</p>
+            </div>
+        </section>
+
+        <!-- 颜色部分 -->
+        <section id="colors" class="colors-section">
+            <div class="feature-text">
+                <h2>多种配色选择</h2>
+                <p>提供多种时尚配色，满足不同用户的个性化需求。采用特殊的涂层工艺，色彩持久亮丽。</p>
+            </div>
+        </section>
+
         <div class="footer">
             <p>© 2023 公司名称。保留所有权利。</p>
         </div>
@@ -372,7 +446,7 @@
                 }
             });
 
-            gsap.to('.hero p1', {
+            gsap.to('.hero p', {
                 opacity: 1,
                 y: 0,
                 duration: 1.5,
@@ -383,42 +457,6 @@
                     start: 'top center',
                 }
             });
-
-          gsap.to('.hero p2', {
-            opacity: 1,
-            y: 0,
-            duration: 1.5,
-            delay: 0.4,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: '.hero',
-              start: 'top center',
-            }
-          });
-
-          gsap.to('.hero p3', {
-            opacity: 1,
-            y: 0,
-            duration: 1.5,
-            delay: 0.5,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: '.hero',
-              start: 'top center',
-            }
-          });
-
-          gsap.to('.hero p4', {
-            opacity: 1,
-            y: 0,
-            duration: 1.5,
-            delay: 0.6,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: '.hero',
-              start: 'top center',
-            }
-          });
 
             gsap.to('.hero .cta-button', {
                 opacity: 1,
@@ -542,9 +580,54 @@
                 }
             });
 
+            // 电池部分动画
+            gsap.to('#battery h2', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: '#battery',
+                    start: 'top 80%',
+                }
+            });
+
+            gsap.to('#battery p', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                delay: 0.3,
+                scrollTrigger: {
+                    trigger: '#battery',
+                    start: 'top 80%',
+                }
+            });
+
+            // 颜色部分动画
+            gsap.to('#colors h2', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: '#colors',
+                    start: 'top 80%',
+                }
+            });
+
+            gsap.to('#colors p', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                delay: 0.3,
+                scrollTrigger: {
+                    trigger: '#colors',
+                    start: 'top 80%',
+                }
+            });
+
             // 导航高亮功能
             const sections = document.querySelectorAll('section');
             const navItems = document.querySelectorAll('.nav-item');
+            const navScroller = document.querySelector('.nav-scroller');
 
             // 监听滚动事件
             window.addEventListener('scroll', function() {
@@ -563,6 +646,16 @@
                     item.classList.remove('active');
                     if (item.getAttribute('href').substring(1) === current) {
                         item.classList.add('active');
+
+                        // 滚动导航使当前项居中
+                        const itemLeft = item.offsetLeft;
+                        const itemWidth = item.offsetWidth;
+                        const scrollerWidth = navScroller.offsetWidth;
+
+                        navScroller.scrollTo({
+                            left: itemLeft - (scrollerWidth / 2) + (itemWidth / 2),
+                            behavior: 'smooth'
+                        });
                     }
                 });
             });
@@ -590,6 +683,68 @@
                         behavior: 'smooth'
                     });
                 });
+            });
+
+            // 导航左右滚动功能
+            const prevBtn = document.querySelector('.nav-control.prev');
+            const nextBtn = document.querySelector('.nav-control.next');
+
+            prevBtn.addEventListener('click', function() {
+                navScroller.scrollBy({
+                    left: -200,
+                    behavior: 'smooth'
+                });
+            });
+
+            nextBtn.addEventListener('click', function() {
+                navScroller.scrollBy({
+                    left: 200,
+                    behavior: 'smooth'
+                });
+            });
+
+            // 自动滚动导航（循环效果）
+            let autoScrollDirection = 1; // 1 for right, -1 for left
+            let autoScrollInterval = setInterval(function() {
+                // 只在页面顶部时自动滚动导航
+                if (window.scrollY < 100) {
+                    const maxScroll = navScroller.scrollWidth - navScroller.offsetWidth;
+
+                    if (navScroller.scrollLeft >= maxScroll - 10) {
+                        autoScrollDirection = -1;
+                    } else if (navScroller.scrollLeft <= 10) {
+                        autoScrollDirection = 1;
+                    }
+
+                    navScroller.scrollBy({
+                        left: autoScrollDirection * 2,
+                        behavior: 'auto'
+                    });
+                }
+            }, 100);
+
+            // 鼠标悬停时暂停自动滚动
+            navScroller.addEventListener('mouseenter', function() {
+                clearInterval(autoScrollInterval);
+            });
+
+            navScroller.addEventListener('mouseleave', function() {
+                autoScrollInterval = setInterval(function() {
+                    if (window.scrollY < 100) {
+                        const maxScroll = navScroller.scrollWidth - navScroller.offsetWidth;
+
+                        if (navScroller.scrollLeft >= maxScroll - 10) {
+                            autoScrollDirection = -1;
+                        } else if (navScroller.scrollLeft <= 10) {
+                            autoScrollDirection = 1;
+                        }
+
+                        navScroller.scrollBy({
+                            left: autoScrollDirection * 2,
+                            behavior: 'auto'
+                        });
+                    }
+                }, 100);
             });
         });
     </script>
