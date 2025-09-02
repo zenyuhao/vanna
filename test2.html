@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>苹果风格鼠标跟随晕染效果</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: none;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+
+        .content {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            z-index: 10;
+            max-width: 600px;
+            pointer-events: none;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, #ffaacc, #aaccff, #ffccaa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            color: #ddd;
+        }
+
+        .gradients {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .gradient {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.5s ease-out, opacity 1.5s ease-out;
+            pointer-events: none;
+            will-change: transform, opacity;
+        }
+
+        .cursor {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 100;
+            mix-blend-mode: difference;
+            transition: width 0.3s, height 0.3s, border-width 0.3s;
+        }
+
+        .cursor-inner {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 100;
+            transition: transform 0.3s;
+        }
+
+        .hint {
+            position: fixed;
+            bottom: 20px;
+            color: #888;
+            font-size: 0.9rem;
+            text-align: center;
+            width: 100%;
+        }
+
+        .controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        button {
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <h1>热感应晕染效果</h1>
+            <p>这种鼠标跟随效果模拟了苹果设计风格中的热感应视觉效果，通过多个渐变层和模糊效果创造出流体般的视觉体验。</p >
+            <p>移动鼠标探索效果，停止时效果会逐渐消失</p >
+        </div>
+
+        <div class="gradients" id="gradients"></div>
+
+        <div class="cursor"></div>
+        <div class="cursor-inner"></div>
+    </div>
+
+    <div class="controls">
+        <button id="colorBtn">切换颜色</button>
+        <button id="sizeBtn">切换大小</button>
+    </div>
+
+    <div class="hint">移动鼠标探索热感应效果 | 停止时效果逐渐消失</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const gradientsContainer = document.getElementById('gradients');
+            const cursor = document.querySelector('.cursor');
+            const cursorInner = document.querySelector('.cursor-inner');
+            const colorBtn = document.getElementById('colorBtn');
+            const sizeBtn = document.getElementById('sizeBtn');
+
+            // 初始位置设置为屏幕中心
+            let mouseX = window.innerWidth / 2;
+            let mouseY = window.innerHeight / 2;
+            let lastX = mouseX;
+            let lastY = mouseY;
+            let mouseVelocity = 0;
+            let lastTime = Date.now();
+
+            // 创建渐变元素
+            const gradients = [];
+            const gradientCount = 12;
+
+            for (let i = 0; i < gradientCount; i++) {
+                const gradient = document.createElement('div');
+                gradient.className = 'gradient';
+                gradientsContainer.appendChild(gradient);
+                gradients.push({
+                    element: gradient,
+                    x: mouseX,
+                    y: mouseY,
+                    size: 40 + i * 8,
+                    delay: i * 0.05,
+                    colorScheme: 0
+                });
+            }
+
+            // 颜色方案
+            const colorSchemes = [
+                ['#ff0066', '#0066ff', '#9900ff'],
+                ['#00ffcc', '#ffcc00', '#ff0066'],
+                ['#66ff00', '#ffaa00', '#ff0066']
+            ];
+
+            let currentColorScheme = 0;
+
+            // 更新鼠标位置和速度
+            document.addEventListener('mousemove', (e) => {
+                const now = Date.now();
+                const timeDiff = now - lastTime;
+
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+
+                // 计算速度
+                const distance = Math.sqrt(Math.pow(mouseX - lastX, 2) + Math.pow(mouseY - lastY, 2));
+                mouseVelocity = distance / (timeDiff || 1);
+
+                lastX = mouseX;
+                lastY = mouseY;
+                lastTime = now;
+
+                // 更新自定义光标位置
+                cursor.style.left = `${mouseX}px`;
+                cursor.style.top = `${mouseY}px`;
+                cursorInner.style.left = `${mouseX}px`;
+                cursorInner.style.top = `${mouseY}px`;
+
+                // 激活所有渐变元素
+                activateGradients();
+            });
+
+            // 添加鼠标点击效果
+            document.addEventListener('mousedown', () => {
+                cursor.style.width = '30px';
+                cursor.style.height = '30px';
+                cursor.style.borderWidth = '3px';
+                cursorInner.style.transform = 'translate(-50%, -50%) scale(1.5)';
+
+                // 点击时创建更强的效果
+                for (let i = 0; i < gradients.length; i++) {
+                    const gradient = gradients[i];
+                    gradient.element.style.transition = 'transform 0.2s ease-out, opacity 0.5s ease-out';
+                    gradient.element.style.opacity = 0.8;
+                    gradient.element.style.transform = `translate(-50%, -50%) scale(${1 + i * 0.1})`;
+
+                    // 设置超时恢复
+                    setTimeout(() => {
+                        gradient.element.style.transition = 'transform 0.5s ease-out, opacity 1.5s ease-out';
+                    }, 200);
+                }
+            });
+
+            document.addEventListener('mouseup', () => {
+                cursor.style.width = '40px';
+                cursor.style.height = '40px';
+                cursor.style.borderWidth = '2px';
+                cursorInner.style.transform = 'translate(-50%, -50%) scale(1)';
+            });
+
+            // 激活渐变元素
+            function activateGradients() {
+                for (let i = 0; i < gradients.length; i++) {
+                    const gradient = gradients[i];
+
+                    // 根据速度调整效果强度
+                    const intensity = Math.min(1, mouseVelocity / 10);
+
+                    // 设置渐变元素样式
+                    const colors = colorSchemes[gradient.colorScheme];
+                    const colorIndex = i % colors.length;
+                    gradient.element.style.background = `radial-gradient(circle, ${colors[colorIndex]} 0%, transparent 70%)`;
+
+                    gradient.element.style.width = `${gradient.size * (1 + intensity * 0.5)}px`;
+                    gradient.element.style.height = `${gradient.size * (1 + intensity * 0.5)}px`;
+
+                    gradient.element.style.opacity = 0.6 - (i * 0.05);
+                    gradient.element.style.transition = 'transform 0.1s linear, opacity 0.5s ease-out';
+                }
+            }
+
+            // 动画循环
+            function animate() {
+                // 为每个渐变层添加不同的跟随延迟
+                for (let i = 0; i < gradients.length; i++) {
+                    const gradient = gradients[i];
+
+                    // 计算目标位置（添加一些动态偏移）
+                    const offsetX = Math.sin(Date.now() * 0.001 + i) * 10;
+                    const offsetY = Math.cos(Date.now() * 0.001 + i) * 10;
+
+                    const targetX = mouseX + offsetX;
+                    const targetY = mouseY + offsetY;
+
+                    // 使用缓动函数平滑移动
+                    gradient.x += (targetX - gradient.x) * (0.1 - gradient.delay * 0.08);
+                    gradient.y += (targetY - gradient.y) * (0.1 - gradient.delay * 0.08);
+
+                    // 应用位置
+                    gradient.element.style.left = `${gradient.x}px`;
+                    gradient.element.style.top = `${gradient.y}px`;
+
+                    // 如果没有鼠标移动，逐渐淡出
+                    if (Date.now() - lastTime > 100) {
+                        const fadeFactor = Math.max(0, 1 - (Date.now() - lastTime - 100) / 1000);
+                        gradient.element.style.opacity = (0.6 - (i * 0.05)) * fadeFactor;
+                        gradient.element.style.transform = `translate(-50%, -50%) scale(${0.5 + fadeFactor * 0.5})`;
+                    }
+                }
+
+                requestAnimationFrame(animate);
+            }
+
+            // 开始动画
+            animate();
+
+            // 切换颜色方案
+            colorBtn.addEventListener('click', () => {
+                currentColorScheme = (currentColorScheme + 1) % colorSchemes.length;
+                for (let i = 0; i < gradients.length; i++) {
+                    gradients[i].colorScheme = currentColorScheme;
+                }
+                activateGradients();
+            });
+
+            // 切换大小
+            sizeBtn.addEventListener('click', () => {
+                for (let i = 0; i < gradients.length; i++) {
+                    gradients[i].size = 20 + Math.random() * 60;
+                }
+                activateGradients();
+            });
+
+            // 初始化激活
+            activateGradients();
+        });
+    </script>
+</body>
+</html>
