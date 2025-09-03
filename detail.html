@@ -471,6 +471,14 @@
           display: block;
       }
 
+      .video-container {
+          position: relative;
+          width: 100%;
+          /* padding-top: 56.25%; /\* 16:9 纵横比 *\/ */
+          background: #000;
+      }
+
+
 
       /* 响应式设计 */
       @media (max-width: 768px) {
@@ -509,9 +517,14 @@
 
     <div class="container">
       <div class="image-container">
-        <img src="festival_1-1.png" alt="美丽的山脉风景">
-        <img src="festival_1-2.png" alt="美丽的山脉风景">
-        <img src="festival_1-3.png" alt="美丽的山脉风景">
+        <img src="festival_1-1.png"/>
+        <div class="video-container">
+          <video controls width="100%">
+            <source src="festival_1-2.mp4" type="video/mp4">
+              您的浏览器不支持HTML5视频播放
+          </video>
+        </div>
+        <img src="festival_1-3.png"/>
       </div>
     </div>
   </body>
