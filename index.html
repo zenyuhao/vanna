@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>视觉设计作品集 | 苹果风格</title>
+    <title>视觉设计作品集</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
       /* 基础样式重置 */
@@ -16,11 +16,26 @@
 
       html, body {
           scroll-behavior: smooth;
-          background-color: #fff;
+          background-color: #F2F2F2;
           color: #1d1d1f;
           line-height: 1.5;
           font-weight: 400;
           overflow-x: hidden;
+      }
+
+      body.overlay-active {
+          background-color: #2c3e50;
+      }
+
+      header {
+          text-align: center;
+          margin-bottom: 40px;
+          color: #2c3e50;
+          transition: color 0.6s ease;
+      }
+
+      body.overlay-active header {
+          color: #ecf0f1;
       }
 
       a {
@@ -273,19 +288,32 @@
           margin: 30px 30px;
           border-radius: 12px;
           overflow: hidden;
-          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+          /* box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); */
       }
 
       .about-content p {
+          font-size: 25px;
+          line-height: 1.6;
+          margin-bottom: 10px;
+          color: #515154;
+      }
+
+      .about-content p1 {
           font-size: 20px;
           line-height: 1.6;
-          margin-bottom: 30px;
+          margin-bottom: 10px;
+          color: #515154;
+      }
+
+      .about-content p2 {
+          font-size: 15px;
+          line-height: 1.6;
+          margin-bottom: 10px;
           color: #515154;
       }
 
       .left-div {
           width: 40%;
-          background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%);
           color: white;
           padding: 30px;
           display: flex;
@@ -296,7 +324,6 @@
       /* 右侧子div - 60%宽度 */
       .right-div {
           width: 60%;
-          background: linear-gradient(135deg, #ff9966 0%, #ff5e62 100%);
           color: white;
           padding: 30px;
           display: flex;
@@ -307,14 +334,13 @@
 
       .bottom-div {
           margin-bottom: 30px;
-          max-width: 900px;
-          background: linear-gradient(135deg, #4776E6 0%, #8E54E9 100%);
+          max-width: 700px;
           color: white;
           padding: 30px;
           border-radius: 10px;
           display: flex;
           min-height: 200px;
-          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+          /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); */
       }
 
       /* 联系区域样式 */
@@ -387,6 +413,43 @@
           color: #0071e3;
       }
 
+      .gallery {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+          gap: 25px;
+          max-width: 1300px;
+          width: 100%;
+          margin-bottom: 40px;
+      }
+
+
+      .loading {
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          z-index: 2000;
+          background: rgba(255, 255, 255, 0.9);
+          padding: 20px 30px;
+          border-radius: 10px;
+          display: flex;
+          align-items: center;
+          box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+          opacity: 0;
+          visibility: hidden;
+          transition: all 0.3s ease;
+      }
+
+      .loading.active {
+          opacity: 1;
+          visibility: visible;
+      }
+
+      .blur {
+          filter: blur(5px) brightness(0.7);
+      }
+
+
       /* 响应式设计 */
       @media (max-width: 768px) {
           .hero h1 {
@@ -445,11 +508,13 @@
       <h2 class="section-title">大型运营活动</h2>
       <div class="portfolio-grid">
         <div class="portfolio-item">
-          <img src="festival_1.png" alt="品牌设计" class="portfolio-img">
+          <a href="detail.html">
+            <img src="festival_1.png" alt="品牌设计" class="portfolio-img">
           <div class="portfolio-info">
             <h3>TikTok Forest</h3>
             <p>树木养成类营运活动</p >
           </div>
+          </a>
         </div>
         <div class="portfolio-item">
           <img src="festival_2.png" alt="品牌设计" class="portfolio-img">
@@ -626,8 +691,11 @@
           <img src="me.png" alt="关于我" class="portfolio-img">
         </div>
         <div class="right-div">
-          <h2 class="content-title">李晓文</h2>
-          <p class="content">视觉设计师, 从业时间9年</p>
+          <p class="content">李晓文</p>
+          <p1 class="content">视觉设计师, 从业时间9年</p1>
+          <p2 class="content">lixiaowen.vanna@gmail.com</p2>
+          <p2 class="content">+86 13482168565</p2>
+          <p2 class="content">WeChat: Vanna_113</p2>
         </div>
         </div>
       </div>
@@ -653,6 +721,11 @@
       <p>© 2023 视觉设计作品集. 保留所有权利</p >
     </footer>
 
+    <div class="loading">
+        <div class="spinner"></div>
+        <div>加载中...</div>
+    </div>
+
     <script>
       // 导航栏滚动效果
       window.addEventListener('scroll', function() {
@@ -665,12 +738,88 @@
       });
 
       // 表单提交处理
-      const form = document.querySelector('.contact-form');
-      form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        alert('感谢您的留言！我会尽快回复您。');
-        form.reset();
-      });
+      // const form = document.querySelector('.contact-form');
+      // form.addEventListener('submit', function(e) {
+      //   e.preventDefault();
+      //   alert('感谢您的留言！我会尽快回复您。');
+      //   form.reset();
+      // });
+
+
+      // document.addEventListener('DOMContentLoaded', function() {
+      //   const imageItems = document.querySelectorAll('.portfolio-img');
+      //   const overlay = document.querySelector('.overlay');
+      //   const overlayImg = document.querySelector('.overlay-img');
+      //   const imageTitle = document.querySelector('.image-title');
+      //   const imageDescription = document.querySelector('.image-description');
+      //   const closeBtn = document.querySelector('.close-btn');
+      //   const body = document.body;
+
+      //   // 点击图片打开浮层
+      //   imageItems.forEach(item => {
+      //     item.addEventListener('click', function() {
+      //       const img = this.querySelector('img');
+      //       overlayImg.src = img.src;
+      //       overlayImg.alt = img.alt;
+      //       imageTitle.textContent = img.dataset.title;
+      //       imageDescription.textContent = img.dataset.desc;
+
+      //       overlay.classList.add('active');
+      //       body.classList.add('blur');
+
+      //       // 禁止背景滚动
+      //       document.body.style.overflow = 'hidden';
+      //     });
+      //   });
+
+      //   // 关闭浮层
+      //   function closeOverlay() {
+      //     overlay.classList.remove('active');
+      //     body.classList.remove('blur');
+      //     document.body.style.overflow = 'auto';
+      //   }
+
+      //   closeBtn.addEventListener('click', closeOverlay);
+
+      //   // 点击浮层背景关闭
+      //   overlay.addEventListener('click', function(e) {
+      //     if (e.target === overlay) {
+      //       closeOverlay();
+      //     }
+      //   });
+
+      //   // ESC键关闭浮层
+      //   document.addEventListener('keydown', function(e) {
+      //     if (e.key === 'Escape' && overlay.classList.contains('active')) {
+      //       closeOverlay();
+      //     }
+      //   });
+
+      //   // 移动设备触摸事件处理
+      //   let startY;
+
+      //   overlay.addEventListener('touchstart', function(e) {
+      //     startY = e.touches[0].clientY;
+      //   }, { passive: true });
+
+      //   overlay.addEventListener('touchmove', function(e) {
+      //     if (!overlayImg.contains(e.target)) return;
+
+      //     const currentY = e.touches[0].clientY;
+      //     const diffY = startY - currentY;
+
+      //     // 如果向上滑动，允许滚动
+      //     if (diffY > 0 && overlayImg.scrollTop <= 0) {
+      //       e.preventDefault();
+      //     }
+
+      //     startY = currentY;
+      //   }, { passive: false });
+      // });
+
+
     </script>
-  </body>
+
+
+</body>
 </html>
